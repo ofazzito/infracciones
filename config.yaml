@@ -11,14 +11,14 @@ video:
     # Imagen en disco
     # (usar reconocedor_automatico.py --img)
     #fuente: './imgs/prueba.jpg'
-    fuente:  './imgs/semaforo.mp4'
+    fuente:  './data/imgs/prueba.jpg'
     
     # Cada cuantos Frames hacer inferencia
     # No se aplica si --demo
     frecuencia_inferencia: 5
 modelo: 
     # resolucion puede ser {608, 512, 384}
-    resolucion_detector: 608
+    resolucion_detector: 512
     
     # Objectness/Score de yolo
     confianza_detector: 0.25
