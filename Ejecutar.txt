@@ -1,0 +1,14 @@
+source ~/.bashrc
+
+# Tensorflow CPU
+conda env create -f conda-cpu.yml
+conda activate yolov4-cpu
+
+# Tensorflow GPU
+conda env create -f conda-gpu.yml
+conda activate yolov4-gpu
+
+
+python object_tracker.py --video ./data/video/semaforo2_1.mp4 --output ./outputs/semaforo1.avi --model yolov4 --dont_show --info
+
+conda deactivate
