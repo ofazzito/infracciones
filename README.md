@@ -2,18 +2,18 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zmeSTP3J5zu2d5fHgsQC06DyYEYJFXq1?usp=sharing)
 
-Object tracking implemented with YOLOv4, DeepSort, and TensorFlow. YOLOv4 is a state of the art algorithm that uses deep convolutional neural networks to perform object detections. We can take the output of YOLOv4 feed these object detections into Deep SORT (Simple Online and Realtime Tracking with a Deep Association Metric) in order to create a highly accurate object tracker.
+Seguimiento de objetos implementado con YOLOv4, DeepSort y TensorFlow. YOLOv4 es un algoritmo de última generación que utiliza redes neuronales convolucionales profundas para realizar detecciones de objetos. Podemos tomar la salida de YOLOv4 para alimentar estas detecciones de objetos en Deep SORT (Seguimiento simple en línea y en tiempo real con una métrica de asociación profunda) para crear un rastreador de objetos de alta precisión.
 
-## Demo of Object Tracker on Persons
+## Demostración del rastreador de objetos en personas
 <p align="center"><img src="data/helpers/demo.gif"\></p>
 
-## Demo of Object Tracker on Cars
+## Demostración del rastreador de objetos en automóviles
 <p align="center"><img src="data/helpers/cars.gif"\></p>
 
-## Getting Started
-To get started, install the proper dependencies either via Anaconda or Pip. I recommend Anaconda route for people using a GPU as it configures CUDA toolkit version for you.
+## Empezando
+Para comenzar, instale las dependencias adecuadas a través de Anaconda o Pip. Recomiendo la ruta Anaconda para las personas que usan una GPU, ya que configura la versión del kit de herramientas CUDA para usted.
 
-### Conda (Recommended)
+### Conda (Recomendado)
 
 ```bash
 # Tensorflow CPU
@@ -34,65 +34,65 @@ pip install -r requirements.txt
 # TensorFlow GPU
 pip install -r requirements-gpu.txt
 ```
-### Nvidia Driver (For GPU, if you are not using Conda Environment and haven't set up CUDA yet)
-Make sure to use CUDA Toolkit version 10.1 as it is the proper version for the TensorFlow version used in this repository.
+### Nvidia Driver (Para GPU, si no está utilizando Conda Environment y aún no ha configurado CUDA)
+Asegúrate de usar CUDA Toolkit versión 10.1, ya que es la versión adecuada para la versión de TensorFlow que se usa en este repositorio.
 https://developer.nvidia.com/cuda-10.1-download-archive-update2
 
-## Downloading Official YOLOv4 Pre-trained Weights
-Our object tracker uses YOLOv4 to make the object detections, which deep sort then uses to track. There exists an official pre-trained YOLOv4 object detector model that is able to detect 80 classes. For easy demo purposes we will use the pre-trained weights for our tracker.
-Download pre-trained yolov4.weights file: https://drive.google.com/open?id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT
+## Bajando pesos pre-entrenados de YOLOv4 
+Nuestro rastreador de objetos usa YOLOv4 para realizar las detecciones de objetos, que luego utiliza la clasificación profunda para rastrear. Existe un modelo oficial de detector de objetos YOLOv4 previamente entrenado que es capaz de detectar 80 clases. Para una demostración sencilla, usaremos los pesos pre-entrenados para nuestro rastreador.
+Descargue el archivo yolov4.weights previamente entrenado: https://drive.google.com/open?id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT
 
-Copy and paste yolov4.weights from your downloads folder into the 'data' folder of this repository.
+Copie y pegue yolov4.weights de su carpeta de descargas en la carpeta 'data' de este repositorio.
 
-If you want to use yolov4-tiny.weights, a smaller model that is faster at running detections but less accurate, download file here: https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights
+Si desea utilizar yolov4-tiny.weights, un modelo más pequeño que es más rápido en la ejecución de detecciones pero menos preciso, descargue el archivo aquí: https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights
 
-## Running the Tracker with YOLOv4
-To implement the object tracking using YOLOv4, first we convert the .weights into the corresponding TensorFlow model which will be saved to a checkpoints folder. Then all we need to do is run the object_tracker.py script to run our object tracker with YOLOv4, DeepSort and TensorFlow.
+## Ejecución del rastreador con YOLOv4
+Para implementar el seguimiento de objetos usando YOLOv4, primero convertimos el .weights en el modelo de TensorFlow correspondiente que se guardará en una carpeta de puntos de control. Luego, todo lo que tenemos que hacer es ejecutar el script object_tracker.py para ejecutar nuestro rastreador de objetos con YOLOv4, DeepSort y TensorFlow.
 ```bash
-# Convert darknet weights to tensorflow model
+# Convertir pesos de darknet en modelo de tensorflow
 python save_model.py --model yolov4 
 
-# Run yolov4 deep sort object tracker on video
+# Ejecute el rastreador de objetos de ordenación profunda yolov4 en el video
 python object_tracker.py --video ./data/video/test.mp4 --output ./outputs/demo.avi --model yolov4
 
-# Run yolov4 deep sort object tracker on webcam (set video flag to 0)
+# Ejecute el rastreador de objetos de ordenación profunda yolov4 en la cámara web (establezca la marca de video en 0)
 python object_tracker.py --video 0 --output ./outputs/webcam.avi --model yolov4
 ```
-The output flag allows you to save the resulting video of the object tracker running so that you can view it again later. Video will be saved to the path that you set. (outputs folder is where it will be if you run the above command!)
+La bandera de salida le permite guardar el video resultante del rastreador de objetos en ejecución para que pueda volver a verlo más tarde. El video se guardará en la ruta que establezca. (¡La carpeta de salidas es donde estará si ejecuta el comando anterior!)
 
-If you want to run yolov3 set the model flag to ``--model yolov3``, upload the yolov3.weights to the 'data' folder and adjust the weights flag in above commands. (see all the available command line flags and descriptions of them in a below section)
+Si desea ejecutar yolov3, configure el indicador del modelo en `` --model yolov3 `` , cargue yolov3.weights en la carpeta 'datos' y ajuste el indicador de pesos en los comandos anteriores. (vea todos los indicadores de línea de comando disponibles y sus descripciones en una sección a continuación)
 
-## Running the Tracker with YOLOv4-Tiny
-The following commands will allow you to run yolov4-tiny model. Yolov4-tiny allows you to obtain a higher speed (FPS) for the tracker at a slight cost to accuracy. Make sure that you have downloaded the tiny weights file and added it to the 'data' folder in order for commands to work!
+## Ejecución del rastreador con YOLOv4-Tiny
+Los siguientes comandos le permitirán ejecutar yolov4-tiny model. Yolov4-tiny le permite obtener una velocidad más alta (FPS) para el rastreador a un pequeño costo de precisión. ¡Asegúrese de haber descargado el archivo de pesos diminutos y agregarlo a la carpeta 'datos' para que los comandos funcionen!
 ```
-# save yolov4-tiny model
+# guardar modelo yolov4-tiny
 python save_model.py --weights ./data/yolov4-tiny.weights --output ./checkpoints/yolov4-tiny-416 --model yolov4 --tiny
 
-# Run yolov4-tiny object tracker
+# Ejecute el rastreador de objetos yolov4-tiny
 python object_tracker.py --weights ./checkpoints/yolov4-tiny-416 --model yolov4 --video ./data/video/test.mp4 --output ./outputs/tiny.avi --tiny
 ```
 
-## Resulting Video
-As mentioned above, the resulting video will save to wherever you set the ``--output`` command line flag path to. I always set it to save to the 'outputs' folder. You can also change the type of video saved by adjusting the ``--output_format`` flag, by default it is set to AVI codec which is XVID.
+## Video resultante
+Como se mencionó anteriormente, el video resultó se guardará en el lugar donde establezca el `` --output ``  ruta de la bandera de línea de comando a. Siempre lo configuro para guardar en la carpeta 'outputs'. También puede cambiar el tipo de video guardado ajustando el indicador `` --output_format `` , por defecto está configurado en el códec AVI que es XVID.
 
-Example video showing tracking of all coco dataset classes:
+Video de ejemplo que muestra el seguimiento de todas las clases de conjuntos de datos de coco:
 <p align="center"><img src="data/helpers/all_classes.gif"\></p>
 
-## Filter Classes that are Tracked by Object Tracker
-By default the code is setup to track all 80 or so classes from the coco dataset, which is what the pre-trained YOLOv4 model is trained on. However, you can easily adjust a few lines of code in order to track any 1 or combination of the 80 classes. It is super easy to filter only the ``person`` class or only the ``car`` class which are most common.
+##Clases de filtro que son rastreadas por Object Tracker
+De forma predeterminada, el código está configurado para rastrear las aproximadamente 80 clases del conjunto de datos de coco, que es en lo que se entrena el modelo YOLOv4 previamente entrenado. Sin embargo, puede ajustar fácilmente algunas líneas de código para rastrear cualquier 1 o combinación de las 80 clases. Es muy fácil filtrar solo la clase `` person`` o solo la clase `` car ``, que son las más comunes.
 
-To filter a custom selection of classes all you need to do is comment out line 159 and uncomment out line 162 of [object_tracker.py](https://github.com/theAIGuysCode/yolov4-deepsort/blob/master/object_tracker.py) Within the list ``allowed_classes`` just add whichever classes you want the tracker to track. The classes can be any of the 80 that the model is trained on, see which classes you can track in the file [data/classes/coco.names](https://github.com/theAIGuysCode/yolov4-deepsort/blob/master/data/classes/coco.names)
+Para filtrar una selección personalizada de clases, todo lo que necesita hacer es comentar la línea 159 y descomentar la línea 162 de[object_tracker.py](https://github.com/theAIGuysCode/yolov4-deepsort/blob/master/object_tracker.py) Dentro de la lista de "clases permitidas", simplemente agregue las clases que desee que rastree el rastreador. Las clases pueden ser cualquiera de las 80 en las que se entrena el modelo, vea qué clases puede rastrear en el archivo [data/classes/coco.names](https://github.com/theAIGuysCode/yolov4-deepsort/blob/master/data/classes/coco.names)
 
-This example would allow the classes for person and car to be tracked.
+Este ejemplo permitiría realizar un seguimiento de las clases para personas y automóviles.
 <p align="center"><img src="data/helpers/filter_classes.PNG"\></p>
 
-### Demo of Object Tracker set to only track the class 'person'
+### Demostración de Object Tracker configurado para rastrear solo la clase 'person'
 <p align="center"><img src="data/helpers/demo.gif"\></p>
 
-### Demo of Object Tracker set to only track the class 'car'
+### Demostración de Object Tracker configurado para rastrear solo la clase 'car'
 <p align="center"><img src="data/helpers/cars.gif"\></p>
 
-## Command Line Args Reference
+## Referencia de argumentos de la línea de comandos
 
 ```bash
 save_model.py:
@@ -136,8 +136,8 @@ save_model.py:
     (default: False)
 ```
 
-### References  
+### Referencias
 
-   Huge shoutout goes to hunglc007 and nwojke for creating the backbones of this repository:
+   Un gran saludo va para hunglc007 y nwojke por crear la columna vertebral de este repositorio:
   * [tensorflow-yolov4-tflite](https://github.com/hunglc007/tensorflow-yolov4-tflite)
   * [Deep SORT Repository](https://github.com/nwojke/deep_sort)

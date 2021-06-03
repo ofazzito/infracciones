@@ -43,7 +43,7 @@ db:
     
     # Cada cuantas patentes hacer
     # el insert en la BD
-    insert_frequency: 50
+    insert_frequency: 5
     
     # Path de la BD
     path: 'db/plates.db'

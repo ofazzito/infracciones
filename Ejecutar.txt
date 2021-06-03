@@ -8,7 +8,10 @@ conda activate yolov4-cpu
 conda env create -f conda-gpu.yml
 conda activate yolov4-gpu
 
-
+#detectar video
 python object_tracker.py --video ./data/video/semaforo2_1.mp4 --output ./outputs/semaforo1.avi --model yolov4 --dont_show --info
+
+#para probar reconocimiento OCR
+python prueba_ocr.py
 
 conda deactivate
